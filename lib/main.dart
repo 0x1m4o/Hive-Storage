@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_storage/cubits/cubit/person_cubit.dart';
+import 'package:hive_storage/models/person.dart';
 import 'package:hive_storage/pages/homepage.dart';
+import 'package:hive_storage/pages/profile.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 Box? box;
 void main() async {
   await Hive.initFlutter();
+  Hive.registerAdapter(PersonAdapter());
   box = await Hive.openBox('box');
-
-  box!.put('name', 'David');
-
   runApp(const MyApp());
 }
 
@@ -17,8 +19,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomePage(box: box!),
+    return BlocProvider(
+      create: (context) => PersonCubit(),
+      child: MaterialApp(
+        home: HomePage(),
+      ),
     );
   }
 }
