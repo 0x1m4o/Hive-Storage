@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
@@ -19,7 +20,6 @@ class ProfilePageState extends State<ProfilePage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   late Box box;
-  Person? person;
 
   @override
   void initState() {
@@ -29,12 +29,18 @@ class ProfilePageState extends State<ProfilePage> {
 
   void getUserData() async {
     box = await Hive.openBox('box');
-    person = await box.get('person');
-    if (person != null) {
-      nameController = TextEditingController(text: person!.name);
-      ageController = TextEditingController(text: person!.age);
+    final savedPerson = box.get('person');
+    if (savedPerson != null) {
+      nameController.text = savedPerson.name;
+      ageController.text = savedPerson.age;
     }
-    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    ageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -43,6 +49,7 @@ class ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: const Text('Profile'),
       ),
+      // Get the name
       body: Center(
           child: Padding(
         padding: const EdgeInsets.all(14),
@@ -68,13 +75,12 @@ class ProfilePageState extends State<ProfilePage> {
                   context
                       .read<PersonCubit>()
                       .profileAdd(nameController.text, ageController.text);
-                  box.put(
-                      'person',
-                      Person(
-                          name: context.read<PersonCubit>().state.name,
-                          age: context.read<PersonCubit>().state.age));
-
-                  person = box.get('person');
+                  final updatedPerson = Person(
+                    name: context.read<PersonCubit>().state.name,
+                    age: context.read<PersonCubit>().state.age,
+                  );
+                  box.put('person', updatedPerson);
+                  Navigator.pop(context);
                 },
                 child: const Text('Submit'))
           ],

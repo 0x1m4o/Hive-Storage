@@ -6,10 +6,8 @@ import 'package:hive_storage/pages/profile.dart';
 
 // ignore: must_be_immutable
 class HomePage extends StatelessWidget {
-  Box? box;
-  HomePage({
+  const HomePage({
     Key? key,
-    this.box,
   }) : super(key: key);
 
   @override

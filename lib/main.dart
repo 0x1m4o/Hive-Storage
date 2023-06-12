@@ -3,7 +3,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_storage/cubits/cubit/person_cubit.dart';
 import 'package:hive_storage/models/person.dart';
 import 'package:hive_storage/pages/homepage.dart';
-import 'package:hive_storage/pages/profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 Box? box;
