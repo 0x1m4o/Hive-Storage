@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PersonCubit(),
-      child: MaterialApp(
+      child: const MaterialApp(
         home: HomePage(),
       ),
     );

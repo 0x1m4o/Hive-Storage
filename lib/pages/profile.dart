@@ -1,17 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_storage/cubits/cubit/person_cubit.dart';
 import 'package:hive_storage/models/person.dart';
 
-// ignore: must_be_immutable
 class ProfilePage extends StatefulWidget {
-  ProfilePage({
-    Key? key,
-  }) : super(key: key);
-
+  const ProfilePage({Key? key}) : super(key: key);
   @override
   State<ProfilePage> createState() => ProfilePageState();
 }
@@ -20,6 +14,7 @@ class ProfilePageState extends State<ProfilePage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   late Box box;
+  Person? savedPerson;
 
   @override
   void initState() {
@@ -29,10 +24,10 @@ class ProfilePageState extends State<ProfilePage> {
 
   void getUserData() async {
     box = await Hive.openBox('box');
-    final savedPerson = box.get('person');
+    savedPerson = box.get('person');
     if (savedPerson != null) {
-      nameController.text = savedPerson.name;
-      ageController.text = savedPerson.age;
+      nameController.text = savedPerson!.name;
+      ageController.text = savedPerson!.age;
     }
   }
 
@@ -49,7 +44,6 @@ class ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: const Text('Profile'),
       ),
-      // Get the name
       body: Center(
           child: Padding(
         padding: const EdgeInsets.all(14),
