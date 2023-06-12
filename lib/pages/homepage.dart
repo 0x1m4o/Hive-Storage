@@ -14,6 +14,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Get the name
       body: Center(child: Text(box.get('name'))),
     );
   }
